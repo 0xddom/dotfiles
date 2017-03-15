@@ -20,6 +20,22 @@
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
 
+					; OSX specific config
+
+(defun is-os-x ()
+  "Return whenever this Emacs is on OSX."
+  (string-equal system-type "darwin"))
+
+(defun set-os-x-config ()
+  "Set specific OSX variables and configurations."
+  (setq mac-option-key-is-meta t)
+  (setq mac-right-option-modifier nil)
+  (menu-bar-mode 1)
+  )
+
+(when (is-os-x)
+  (set-os-x-config))
+
 (setq tab-width 2)
 (setq-default cursor-type 'bar)
 (global-linum-mode 1)
@@ -162,8 +178,26 @@
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook  'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil)))
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+			      :placeOpenBraceOnNewLineForFunctions nil)))
 
 (provide 'init)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(minimap-hide-scroll-bar t)
+ '(minimap-width-fraction 0.1)
+ '(minimap-window-location (quote right))
+ '(package-selected-packages
+   (quote
+    (atom-one-dark-theme atom-dark-one-theme tide typescript-mode rust-mode markdown-mode web-mode coffee-mode yaml-mode vala-mode ledger-mode afternoon-theme flycheck company minimap neotree which-key counsel swiper ivy general avy use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(minimap-font-face ((t (:height 20 :family "DejaVu Sans Mono")))))
