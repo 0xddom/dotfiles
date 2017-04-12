@@ -21,6 +21,22 @@
 (menu-bar-mode -1) ; Remove menubar
 (put 'downcase-region 'disabled nil)
 
+					; OSX specific config
+
+(defun is-os-x ()
+  "Return whenever this Emacs is on OSX."
+  (string-equal system-type "darwin"))
+
+(defun set-os-x-config ()
+  "Set specific OSX variables and configurations."
+  (setq mac-option-key-is-meta t)
+  (setq mac-right-option-modifier nil)
+  (menu-bar-mode 1)
+  )
+
+(when (is-os-x)
+  (set-os-x-config))
+
 (setq tab-width 2)
 (setq-default cursor-type 'bar)
 (global-linum-mode 1)
@@ -171,7 +187,8 @@
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook  'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil)))
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+			      :placeOpenBraceOnNewLineForFunctions nil)))
 
 (use-package haskell-mode :ensure t
   :mode "\\.hs\\'")
@@ -182,4 +199,3 @@
 (provide 'init)
 
 ;;; init.el ends here
-
