@@ -21,6 +21,16 @@
 (menu-bar-mode -1) ; Remove menubar
 (put 'downcase-region 'disabled nil)
 
+					; Org-mode specific config
+(defun config-org-more ()
+  "Org-mode configuration encapsulated."
+  (setq org-directory "~/Dropbox/org")
+  (setq org-mobile-inbox-for-pull "~/org/notes.org")
+  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
+  )
+
+(config-org-more)
+
 					; OSX specific config
 
 (defun is-os-x ()
