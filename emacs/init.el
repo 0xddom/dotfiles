@@ -19,6 +19,7 @@
 (setq initial-scratch-message "Welcome in Emacs")
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
+(put 'downcase-region 'disabled nil)
 
 (setq tab-width 2)
 (setq-default cursor-type 'bar)
@@ -123,6 +124,12 @@
   :config
   (load-theme 'atom-one-dark t))
 
+					; Org-mode setup
+
+(add-hook 'org-mode-hook #'(lambda ()
+			     (visual-line-mode)
+			     (org-indent-mode)))
+
 					; Language modes
 
 (use-package ruby-mode :ensure t
@@ -135,6 +142,8 @@
 
 (use-package ledger-mode :ensure t
   :mode "\\.dat\\'")
+;  :config
+;  (global-set-key "C-c s" 'ledger-sort-buffer))
 
 (use-package vala-mode :ensure t
   :mode "\\.vala\\'")
@@ -164,6 +173,13 @@
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil)))
 
+(use-package haskell-mode :ensure t
+  :mode "\\.hs\\'")
+
+(use-package sass-mode :ensure t
+  :mode "\\.scss\\'")
+
 (provide 'init)
 
 ;;; init.el ends here
+
