@@ -19,6 +19,7 @@
 (setq initial-scratch-message "Welcome in Emacs")
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
+(scroll-bar-mode -1) ; Remove scrollbar
 
 					; OSX specific config
 
@@ -106,7 +107,7 @@
   :config
   (global-set-key [f8] 'neotree-toggle))
 
-(use-package minimap :ensure t
+(use-package minimap :ensure f
   :config
   (custom-set-variables
    '(minimap-hide-scroll-bar t)
@@ -178,26 +179,18 @@
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook  'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
-			      :placeOpenBraceOnNewLineForFunctions nil)))
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil)))
+
+(use-package jinja2-mode :ensure t
+  :mode "\\.j2\\'")
+
+(use-package dockerfile-mode :ensure t
+  :mode "\\Dockerfile\\'")
+
+(use-package haskell-mode :ensure t
+  :mode "\\.hs\\'")
 
 (provide 'init)
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(minimap-hide-scroll-bar t)
- '(minimap-width-fraction 0.1)
- '(minimap-window-location (quote right))
- '(package-selected-packages
-   (quote
-    (atom-one-dark-theme atom-dark-one-theme tide typescript-mode rust-mode markdown-mode web-mode coffee-mode yaml-mode vala-mode ledger-mode afternoon-theme flycheck company minimap neotree which-key counsel swiper ivy general avy use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(minimap-font-face ((t (:height 20 :family "DejaVu Sans Mono")))))
+
