@@ -19,17 +19,19 @@
 (setq initial-scratch-message "Welcome in Emacs")
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
+(scroll-bar-mode -1)
 (put 'downcase-region 'disabled nil)
+(put 'uppercase-region 'disables nil)
+(global-unset-key (kbd "C-z"))
 
-					; Org-mode specific config
-(defun config-org-more ()
-  "Org-mode configuration encapsulated."
-  (setq org-directory "~/Dropbox/org")
-  (setq org-mobile-inbox-for-pull "~/org/notes.org")
-  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
-  )
+(setq frame-title-format
+          '(buffer-file-name "%f - Emacs"
+            ))
 
-(config-org-more)
+(defun set-font-size ()
+  "Set a default font size and style."
+  (set-frame-font "Monaco 14")
+)
 
 					; OSX specific config
 
@@ -52,7 +54,7 @@
 (global-linum-mode 1)
 
 (require 'package)
-;(require 'cl)
+(require 'cl)
 
 (setq package-enable-at-startup nil)
 
@@ -99,6 +101,9 @@
  ;; Replace default keybindings
  "C-s" 'swiper         ; Search for string in current buffer
  "M-x" 'counsel-M-x    ; Replace default M-x with ivy backend
+ "C--" 'text-scale-decrease
+ "C-+" 'text-scale-increase
+ "C-0" '(set-face-attribute 'default nil :height 100)
  )
 
 (general-define-key
@@ -152,9 +157,26 @@
 
 					; Org-mode setup
 
-(add-hook 'org-mode-hook #'(lambda ()
-			     (visual-line-mode)
-			     (org-indent-mode)))
+(defun config-org-mode ()
+  "Org-mode configuration encapsulated."
+  (setq org-directory "~/Dropbox/org")
+  (setq org-mobile-inbox-for-pull "~/Dropbox/org/notes.org")
+  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
+
+  (setq org-mobile-autopull nil)
+  (when org-mobile-autopull
+    (org-mobile-pull))
+  
+
+  (add-hook 'org-mode-hook #'(lambda ()
+			       (visual-line-mode)
+			       (org-indent-mode)))
+
+  (require 'org-wiki)
+  (setq org-wiki-location "~/org/wiki")
+  )
+
+(config-org-mode)
 
 					; Language modes
 
@@ -167,9 +189,10 @@
   :interpreter ("python" . python-mode))
 
 (use-package ledger-mode :ensure t
-  :mode "\\.dat\\'")
-;  :config
-;  (global-set-key "C-c s" 'ledger-sort-buffer))
+  :mode "\\.dat\\'"
+  :config
+  (general-define-key "C-c s" 'ledger-sort-buffer)
+  )
 
 (use-package vala-mode :ensure t
   :mode "\\.vala\\'")
@@ -181,7 +204,7 @@
   :mode "\\.coffee\\'")
 
 (use-package web-mode :ensure t
-  :mode "\\.erb\\'")
+  :mode "\\.\\(erb\\|php\\)\\'")
 
 (use-package markdown-mode :ensure t
   :mode "\\.md\\'")
@@ -191,6 +214,9 @@
 
 (use-package typescript-mode :ensure t
   :mode "\\.ts\\'")
+
+(use-package dockerfile-mode :ensure t
+  :mode "Dockerfile")
 
 (use-package tide :ensure t
   :config
@@ -206,6 +232,18 @@
 (use-package sass-mode :ensure t
   :mode "\\.scss\\'")
 
+(use-package gradle-mode :ensure t
+  :mode "\\.gradle\\'")
+
+(use-package groovy-mode :ensure t
+  :mode "\\.\\(gradle\\|groovy\\)\\'")
+
 (provide 'init)
 
 ;;; init.el ends here
+
+;; Remove annoying warnings.
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars unresolved)
+;; End:
