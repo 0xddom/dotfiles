@@ -20,6 +20,19 @@
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
 (scroll-bar-mode -1) ; Remove scrollbar
+(put 'downcase-region 'disabled nil)
+;; (set-face-attribute 'default nil :height 100)
+(set-frame-font "Source Code Pro for Powerline Light 9")
+
+					; Org-mode specific config
+(defun config-org-more ()
+  "Org-mode configuration encapsulated."
+  (setq org-directory "~/Dropbox/org")
+  (setq org-mobile-inbox-for-pull "~/org/notes.org")
+  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
+  )
+
+(config-org-more)
 
 					; OSX specific config
 
@@ -136,9 +149,19 @@
   (company-mode +1))
 
 					; Theme setup
-(use-package atom-one-dark-theme :ensure t
+;;(use-package atom-one-dark-theme :ensure t
+;;  :config
+;;  (load-theme 'atom-one-dark t))
+
+(use-package spacegray-theme :ensure t
   :config
-  (load-theme 'atom-one-dark t))
+  (load-theme 'spacegray t))
+
+					; Org-mode setup
+
+(add-hook 'org-mode-hook #'(lambda ()
+			     (visual-line-mode)
+			     (org-indent-mode)))
 
 					; Language modes
 
@@ -152,6 +175,8 @@
 
 (use-package ledger-mode :ensure t
   :mode "\\.dat\\'")
+;  :config
+;  (global-set-key "C-c s" 'ledger-sort-buffer))
 
 (use-package vala-mode :ensure t
   :mode "\\.vala\\'")
@@ -185,10 +210,19 @@
   :mode "\\.j2\\'")
 
 (use-package dockerfile-mode :ensure t
-  :mode "\\Dockerfile\\'")
+  :mode "Dockerfile")
 
 (use-package haskell-mode :ensure t
   :mode "\\.hs\\'")
+
+(use-package haskell-mode :ensure t
+  :mode "\\.hs\\'")
+
+(use-package sass-mode :ensure t
+  :mode "\\.scss\\'")
+
+(use-package go-mode :ensure t
+  :mode "\\.go\\'")
 
 (provide 'init)
 
