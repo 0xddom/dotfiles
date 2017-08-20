@@ -25,12 +25,11 @@
 (global-unset-key (kbd "C-z"))
 
 (setq frame-title-format
-          '(buffer-file-name "%f - Emacs"
-            ))
+      '(buffer-file-name "%f - Emacs"))
 
 (defun set-font-size ()
   "Set a default font size and style."
-  (set-frame-font "Monaco 14")
+  (set-frame-font "Source Code Pro for Powerline 12")
 )
 
 					; OSX specific config
@@ -63,6 +62,22 @@
 			 ("melpa"       . "http://melpa.org/packages/")
 			 ("marmalade"   . "http://marmalade-repo.org/packages/")
 			 ))
+(defun setup-prettify-symbols ()
+  "Encapsulates prettify symbols setup."
+  (setq prettify-symbols-alist
+	'(
+	  ("lambda" . 955) ; λ
+	  ("->" . 8594)    ; →
+	  ("=>" . 8658)    ; ⇒
+	  ("map" . 8614)   ; ↦
+	  ("<=" . 2264)    ; ≤
+	  (">=" . 2265)    ; ≥
+	  ))
+  (global-prettify-symbols-mode 1)
+)
+
+(setup-prettify-symbols)
+
 
 (package-initialize)
 
@@ -80,6 +95,8 @@
   (general-define-key "C-'" 'avy-goto-word-1)
   )
 
+(use-package tabbar :ensure t)
+
 (use-package ivy :ensure t)
 
 (use-package swiper :ensure t
@@ -96,6 +113,10 @@
    "C-c ff" "find file"
    "C-c fr" "recently edited"
    "C-c p" "project"))
+
+(use-package projectile :ensure t
+  :config
+  (projectile-global-mode))
 
 (general-define-key
  ;; Replace default keybindings
@@ -182,7 +203,16 @@
 
 (use-package ruby-mode :ensure t
   :mode "\\.rb\\'"
-  :interpreter "ruby")
+  :interpreter "ruby"
+  :config
+  (add-hook 'ruby-mode-hook #'(lambda ()
+  				(setq prettify-symbols-alist
+  				      '(
+  					("lambda" . 955) ; λ
+  					("->" . 8594)    ; →
+					)
+  				      )))
+  )
 
 (use-package python :ensure t
   :mode ("\\.py\\'" . python-mode)
@@ -227,7 +257,18 @@
 			      :placeOpenBraceOnNewLineForFunctions nil)))
 
 (use-package haskell-mode :ensure t
-  :mode "\\.hs\\'")
+  :mode "\\.hs\\'"
+  :config
+  (add-hook 'haskell-mode-hook #'(lambda ()
+				(setq prettify-symbols-alist
+				      '(
+					("lambda" . 955) ; λ
+					("map" . 8614)   ; ↦
+					("->" . 8594)    ; →
+					("sum" . 8721) ; ∑
+					("foldr (*) 1" . 8719) ; ∏
+					)
+				      ))))
 
 (use-package sass-mode :ensure t
   :mode "\\.scss\\'")
@@ -238,6 +279,16 @@
 (use-package groovy-mode :ensure t
   :mode "\\.\\(gradle\\|groovy\\)\\'")
 
+(use-package meson-mode :ensure t
+  :mode "\\.build\\'")
+
+
+
+;(use-package tuareg-mode :ensure t
+;  :mode "\\.ml\\'")
+
+(load "/home/kuro/.opam/4.02.3/share/emacs/site-lisp/tuareg-site-file")
+
 (provide 'init)
 
 ;;; init.el ends here
@@ -247,3 +298,4 @@
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars unresolved)
 ;; End:
+(put 'upcase-region 'disabled nil)
