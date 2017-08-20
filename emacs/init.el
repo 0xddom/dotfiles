@@ -23,17 +23,19 @@
 (put 'downcase-region 'disabled nil)
 (put 'uppercase-region 'disables nil)
 ;; (set-face-attribute 'default nil :height 100)
-(set-frame-font "Source Code Pro for Powerline Light 13")
 (global-unset-key (kbd "C-z"))
 
 (setq frame-title-format
       '(buffer-file-name "%f - Emacs"))
 
-(defun set-font-size ()
-  "Set a default font size and style."
-  (set-frame-font "Source Code Pro for Powerline 12")
-)
+(defun set-font-size (size)
+  "Set a default font size and style.
+SIZE: The size of the font"
+;  (set-frame-font "Source Code Pro for Powerline 12")
+  (set-frame-font (format "Source Code Pro for Powerline Light %d" size))
+  )
 
+(set-font-size 10)
 					; OSX specific config
 
 (defun is-os-x ()
@@ -45,6 +47,7 @@
   (setq mac-option-key-is-meta t)
   (setq mac-right-option-modifier nil)
   (menu-bar-mode 1)
+  (set-font-size 13)
   )
 
 (when (is-os-x)
@@ -53,6 +56,7 @@
 (setq tab-width 2)
 (setq-default cursor-type 'bar)
 (global-linum-mode 1)
+
 
 (require 'package)
 (require 'cl)
