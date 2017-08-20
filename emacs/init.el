@@ -19,18 +19,21 @@
 (setq initial-scratch-message "Welcome in Emacs")
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
-(scroll-bar-mode -1) ; Remote scrollbar
+(scroll-bar-mode -1) ; Remove scrollbar
 (put 'downcase-region 'disabled nil)
+(put 'uppercase-region 'disables nil)
+;; (set-face-attribute 'default nil :height 100)
+(set-frame-font "Source Code Pro for Powerline Light 13")
+(global-unset-key (kbd "C-z"))
 
-					; Org-mode specific config
-(defun config-org-more ()
-  "Org-mode configuration encapsulated."
-  (setq org-directory "~/Dropbox/org")
-  (setq org-mobile-inbox-for-pull "~/org/notes.org")
-  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
-  )
+(setq frame-title-format
+          '(buffer-file-name "%f - Emacs"
+            ))
 
-(config-org-more)
+(defun set-font-size ()
+  "Set a default font size and style."
+  (set-frame-font "Monaco 14")
+)
 
 					; OSX specific config
 
@@ -53,7 +56,7 @@
 (global-linum-mode 1)
 
 (require 'package)
-;(require 'cl)
+(require 'cl)
 
 (setq package-enable-at-startup nil)
 
@@ -100,6 +103,9 @@
  ;; Replace default keybindings
  "C-s" 'swiper         ; Search for string in current buffer
  "M-x" 'counsel-M-x    ; Replace default M-x with ivy backend
+ "C--" 'text-scale-decrease
+ "C-+" 'text-scale-increase
+ "C-0" '(set-face-attribute 'default nil :height 100)
  )
 
 (general-define-key
@@ -180,18 +186,37 @@
   :config
   (load-theme 'rebecca t))
 
+
+
+
 					; Org-mode setup
 
-(add-hook 'org-mode-hook #'(lambda ()
-			     (visual-line-mode)
-			     (org-indent-mode)
-			     (variable-pitch-mode)))
+(defun config-org-mode ()
+  "Org-mode configuration encapsulated."
+  (setq org-directory "~/Dropbox/org")
+  (setq org-mobile-inbox-for-pull "~/Dropbox/org/notes.org")
+  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
+
+  (setq org-mobile-autopull nil)
+  (when org-mobile-autopull
+    (org-mobile-pull))
+  
+
+  (add-hook 'org-mode-hook #'(lambda ()
+			       (visual-line-mode)
+			(variable-pitch-mode)
+			       (org-indent-mode)))
+
+  (require 'org-wiki)
+  (setq org-wiki-location "~/org/wiki")
+  )
+
+(config-org-mode)
 
 					; Markdown setup
 (add-hook 'markdown-mode-hook #'(lambda ()
 				  (visual-line-mode)
 				  (variable-pitch-mode)))
-
 					; Language modes
 
 (use-package ruby-mode :ensure t
@@ -203,9 +228,10 @@
   :interpreter ("python" . python-mode))
 
 (use-package ledger-mode :ensure t
-  :mode "\\.dat\\'")
-;  :config
-;  (global-set-key "C-c s" 'ledger-sort-buffer))
+  :mode "\\.dat\\'"
+  :config
+  (general-define-key "C-c s" 'ledger-sort-buffer)
+  )
 
 (use-package vala-mode :ensure t
   :mode "\\.vala\\'")
@@ -217,7 +243,7 @@
   :mode "\\.coffee\\'")
 
 (use-package web-mode :ensure t
-  :mode "\\.erb\\'")
+  :mode "\\.\\(erb\\|php\\)\\'")
 
 (use-package markdown-mode :ensure t
   :mode "\\.md\\'")
@@ -228,13 +254,24 @@
 (use-package typescript-mode :ensure t
   :mode "\\.ts\\'")
 
+(use-package dockerfile-mode :ensure t
+  :mode "Dockerfile")
+
 (use-package tide :ensure t
   :config
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook  'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
-			      :placeOpenBraceOnNewLineForFunctions nil)))
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil)))
+
+(use-package jinja2-mode :ensure t
+  :mode "\\.j2\\'")
+
+(use-package dockerfile-mode :ensure t
+  :mode "Dockerfile")
+
+(use-package haskell-mode :ensure t
+  :mode "\\.hs\\'")
 
 (use-package haskell-mode :ensure t
   :mode "\\.hs\\'")
@@ -242,10 +279,14 @@
 (use-package sass-mode :ensure t
   :mode "\\.scss\\'")
 
-;; Treetop
-;;(autoload 'treetop-mode "treetop-mode" "Major mode for treetop files" t)
-;;(add-to-list 'auto-mode-alist '("\\.rb$" . treetop-mode))
-;;(add-to-list 'interpreter-mode-alist '("treetop" . treetop-mode))
+(use-package go-mode :ensure t
+  :mode "\\.go\\'")
+
+(use-package gradle-mode :ensure t
+  :mode "\\.gradle\\'")
+
+(use-package groovy-mode :ensure t
+  :mode "\\.\\(gradle\\|groovy\\)\\'")
 
 (provide 'init)
 
@@ -267,3 +308,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(minimap-font-face ((t (:height 20 :family "DejaVu Sans Mono")))))
+
+;; Remove annoying warnings.
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars unresolved)
+;; End:
