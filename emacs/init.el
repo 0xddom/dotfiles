@@ -8,7 +8,7 @@
 (setq version-control t)
 (setq vc-make-backup-files t )		; make backups file even when in version controlled dir
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
-(setq vc-follow-symlinks t )		; don't ask for confirmation when opening symlinked file
+(setq vc-follow-symlinks t)		; don't ask for confirmation when opening symlinked file
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
 (setq inhibit-startup-screen t )	; inhibit useless and old-school startup screen
 (setq ring-bell-function 'ignore )	; silent bell when you make a mistake
@@ -19,9 +19,11 @@
 (setq initial-scratch-message "Welcome in Emacs")
 (tool-bar-mode -1) ; Remove toolbar
 (menu-bar-mode -1) ; Remove menubar
-(scroll-bar-mode -1)
+(scroll-bar-mode -1) ; Remove scrollbar
 (put 'downcase-region 'disabled nil)
 (put 'uppercase-region 'disables nil)
+;; (set-face-attribute 'default nil :height 100)
+(set-frame-font "Source Code Pro for Powerline Light 13")
 (global-unset-key (kbd "C-z"))
 
 (setq frame-title-format
@@ -139,19 +141,26 @@
  "pf" '(counsel-git :which-key "find file in git dir")
  )
 
+(use-package all-the-icons :ensure t)
+
 (use-package neotree :ensure t
   :config
-  (global-set-key [f8] 'neotree-toggle))
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
-(use-package minimap :ensure t
+;;(use-package minimap :ensure t
+;;  :config
+;;  (custom-set-variables
+;;   '(minimap-hide-scroll-bar t)
+;;   '(minimap-width-fraction 0.1)
+;;   '(minimap-window-location (quote right)))
+;;  (custom-set-faces
+;;   '(minimap-font-face ((t (:height 20 :family "DejaVu Sans Mono")))))
+;;  (global-set-key [f7] 'minimap-create))
+
+(use-package dashboard :ensure t
   :config
-  (custom-set-variables
-   '(minimap-hide-scroll-bar t)
-   '(minimap-width-fraction 0.1)
-   '(minimap-window-location (quote right)))
-  (custom-set-faces
-   '(minimap-font-face ((t (:height 20 :family "DejaVu Sans Mono")))))
-  (global-set-key [f7] 'minimap-create))
+  (dashboard-setup-startup-hook))
 
 (use-package company :ensure t
   :init
@@ -160,6 +169,7 @@
 (use-package flycheck :ensure t
   :init
   (global-flycheck-mode))
+
 
 (defun setup-tide-mode ()
   "Set how tide mode will behave."
@@ -171,10 +181,34 @@
   (tide-hl-identifier-mode +1)
   (company-mode +1))
 
-					; Theme setup
-(use-package atom-one-dark-theme :ensure t
+(use-package rvm :ensure t
   :config
-  (load-theme 'atom-one-dark t))
+  (rvm-use-default))
+
+(use-package robe :ensure t
+  :config
+  (add-hook 'ruby-mode-hook 'robe-mode))
+
+(use-package sublimity :ensure t
+  :config
+  ;;(require 'sublimity-scroll)
+  ;;(require 'sublimity-map)
+
+  ;;(sublimity-mode 1)
+
+  ;;(sublimity-map-set-delay nil)
+  
+  ;; (setq sublimity-scroll-weight 5
+  ;;	sublimity-scroll-drift-length 10)
+  )
+
+					; Theme setup
+(use-package rebecca-theme :ensure t
+  :config
+  (load-theme 'rebecca t))
+
+
+
 
 					; Org-mode setup
 
@@ -191,6 +225,7 @@
 
   (add-hook 'org-mode-hook #'(lambda ()
 			       (visual-line-mode)
+			(variable-pitch-mode)
 			       (org-indent-mode)))
 
   (require 'org-wiki)
@@ -199,6 +234,10 @@
 
 (config-org-mode)
 
+					; Markdown setup
+(add-hook 'markdown-mode-hook #'(lambda ()
+				  (visual-line-mode)
+				  (variable-pitch-mode)))
 					; Language modes
 
 (use-package ruby-mode :ensure t
@@ -253,8 +292,16 @@
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook  'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
-			      :placeOpenBraceOnNewLineForFunctions nil)))
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil)))
+
+(use-package jinja2-mode :ensure t
+  :mode "\\.j2\\'")
+
+(use-package dockerfile-mode :ensure t
+  :mode "Dockerfile")
+
+(use-package haskell-mode :ensure t
+  :mode "\\.hs\\'")
 
 (use-package haskell-mode :ensure t
   :mode "\\.hs\\'"
@@ -272,6 +319,9 @@
 
 (use-package sass-mode :ensure t
   :mode "\\.scss\\'")
+
+(use-package go-mode :ensure t
+  :mode "\\.go\\'")
 
 (use-package gradle-mode :ensure t
   :mode "\\.gradle\\'")
@@ -292,6 +342,23 @@
 (provide 'init)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(minimap-hide-scroll-bar t)
+ '(minimap-width-fraction 0.1)
+ '(minimap-window-location (quote right))
+ '(package-selected-packages
+   (quote
+    (sublimity rvm robe robe-mode dashboard rebecca-theme rebeca-theme all-the-icons sass-mode haskell-mode tide typescript-mode rust-mode markdown-mode web-mode coffee-mode yaml-mode vala-mode ledger-mode atom-one-dark-theme flycheck company minimap neotree which-key counsel swiper ivy general avy use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(minimap-font-face ((t (:height 20 :family "DejaVu Sans Mono")))))
 
 ;; Remove annoying warnings.
 
