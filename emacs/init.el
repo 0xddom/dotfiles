@@ -59,7 +59,8 @@ SIZE: The size of the font"
 
 
 (require 'package)
-(require 'cl)
+(eval-when-compile (require 'cl))
+(require 'server)
 
 (setq package-enable-at-startup nil)
 
@@ -122,7 +123,7 @@ SIZE: The size of the font"
 
 (use-package projectile :ensure t
   :config
-  (projectile-global-mode))
+  (projectile-mode))
 
 (general-define-key
  ;; Replace default keybindings
@@ -150,7 +151,13 @@ SIZE: The size of the font"
 (use-package neotree :ensure t
   :config
   (global-set-key [f8] 'neotree-toggle)
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+  ;;(setq neo-theme (if (or (display-graphic-p) (server-running-p)) 'icons 'arrow)))
+  (setq neo-theme 'icons)
+  )
+
+(use-package rainbow-delimiters :ensure t
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;;(use-package minimap :ensure t
 ;;  :config
@@ -207,9 +214,10 @@ SIZE: The size of the font"
   )
 
 					; Theme setup
-(use-package rebecca-theme :ensure t
-  :config
-  (load-theme 'rebecca t))
+;;(use-package rebecca-theme :ensure t
+;;  :config
+;;  (load-theme 'rebecca t))
+(load-theme #'rebecca t)
 
 
 
