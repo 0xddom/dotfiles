@@ -26,9 +26,7 @@
 (set-frame-font "Source Code Pro for Powerline Light 13")
 (global-unset-key (kbd "C-z"))
 
-(setq frame-title-format
-          '(buffer-file-name "%f - Emacs"
-            ))
+(setq frame-title-format '(buffer-file-name "%f - Emacs"))
 
 (defun set-font-size ()
   "Set a default font size and style."
