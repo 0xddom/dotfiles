@@ -13,6 +13,7 @@
 
 (eval-when-compile (require 'cl))
 
+(require 'secrets "~/.emacs.d/secrets.el")
 (require 'configs "~/.emacs.d/configs.el")
 
 (do-config 'basic)

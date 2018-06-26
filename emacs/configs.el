@@ -6,11 +6,21 @@
 
 ;;; Code:
 
+(require 'solar)
+(require 'calendar)
+
 (defun set-font-size (size)
   "Set a default font size and style.
 SIZE: The size of the font"
   (set-frame-font (format "Source Code Pro for Powerline Light %d" size))
   )
+
+(defun night-time? (time)
+  "Return true if we are at night time, false otherwise.
+TIME: The current time."
+  (or
+   (< time sunrise-time)
+   (> time sunset-time)))
 
 (defun configs//basic ()
   "Run the basic configuration."
@@ -52,6 +62,9 @@ SIZE: The size of the font"
   (global-linum-mode 1)
   ;; (setq line-move-visual nil)
   (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+ 
+  (setq sunset-time (caadr (solar-sunrise-sunset (calendar-current-date)))) ;; sunset
+  (setq sunrise-time (caar (solar-sunrise-sunset (calendar-current-date)))) ;; sunrise
   )
 
 (defun configs//darwin ()
@@ -124,7 +137,13 @@ SIZE: The size of the font"
 
 (defun configs//theme ()
   "Setup the theme."
-  (load-theme #'rebecca t))
+  (unless (package-installed-p 'flatui-theme)
+    (package-refresh-contents)
+    (package-install 'flatui-theme))
+  (if (night-time? (string-to-number (format-time-string "%H")))
+      (load-theme #'rebecca t)
+    (load-theme #'flatui t)
+    ))
 
 (defun configs//org-mode ()
   "\"org-mode\" configuration encapsulated."
