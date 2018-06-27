@@ -4,20 +4,35 @@ set $mod Mod4
 
 # -------------------- WORKSPACES -------------------
 
-set $w1 "1: GNR"
-set $w2 "2: TLG"
-set $w3 "3: WRK"
-set $w4 "4: MON"
-set $w5 "5"
-set $w6 "6"
-set $w7 "7: MAL"
-set $w8 "8"
-set $w9 "9"
+set $w1  "1: GNR"
+set $w2  "2: TLG"
+set $w3  "3: WRK"
+set $w4  "4: MON"
+set $w5  "5"
+set $w6  "6"
+set $w7  "7: MAL"
+set $w8  "8"
+set $w9  "9"
+set $w10 "10"
+set $w11 "11"
+set $w12 "12"
+set $w13 "13"
+set $w14 "14"
+set $w15 "15"
+set $w16 "16"
+set $w17 "17"
+set $w18 "18"
+set $w19 "19"
+set $w20 "20"
+set $w21 "21"
+set $w22 "22"
 
 # ------------------- CLASSES -----------------------
 
 set $TelegramCls [class="(?i)telegram"]
 set $rhythmboxCls [class="Rhythmbox"]
+set $addtransCls [class="(?i)addtrans"]
+set $thunderbirdCls [class="Thunderbird"]
 
 # ------------------- COLORS ------------------------
 
@@ -31,7 +46,8 @@ set $indicator-color      "#00ff00"
 # ---------------- DEFAULT PROGRAMS -----------------
 
 set $term "gnome-terminal"
-set $emacs "emacsclient -c"
+#set $term "alacritty"
+set $emacs emacs
 set $browser "firefox"
 set $file_explorer "pcmanfm"
 set $telegram "/home/kuro/.scripts/Telegram/Telegram"
@@ -43,12 +59,13 @@ set $rofi-config "/home/kuro/.rofi.config"
 
 # -------------------- FONT -------------------------
 
-font pango:System San Francisco Display 11
+#font pango:System San Francisco Display 11
+font pango:Source Code Pro for Powerline 9
 
 # -------------------- SCREENS ----------------------
 
-set $left_screen HDMI-0
-set $right_screen DVI-D-0
+set $left_screen DVI-D-0
+set $right_screen HDMI-0
 
 # ------------------- COMPTON -----------------------
 
@@ -58,6 +75,7 @@ set $compton-delay 5
 
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (r)eboot, (Shift+s)hutdown
 set $mode_launcher (f)irefox, (F)ile manager, (e)macs, (t)hunderbird, (T)elegram, (r)hythmbox
+set $mode_money (e)dit ledger (a)dd transaction
 
 # -------------------- OTHER ------------------------
 
@@ -100,6 +118,19 @@ bindsym $mod+6 workspace $w6
 bindsym $mod+7 workspace $w7
 bindsym $mod+8 workspace $w8
 bindsym $mod+9 workspace $w9
+bindsym $mod+0 workspace $w10
+bindsym $mod+F1 workspace $w11
+bindsym $mod+F2 workspace $w12
+bindsym $mod+F3 workspace $w13
+bindsym $mod+F4 workspace $w14
+bindsym $mod+F5 workspace $w15
+bindsym $mod+F6 workspace $w16
+bindsym $mod+F7 workspace $w17
+bindsym $mod+F8 workspace $w18
+bindsym $mod+F9 workspace $w19
+bindsym $mod+F10 workspace $w20
+bindsym $mod+F11 workspace $w21
+bindsym $mod+F12 workspace $w22
 
 bindsym $mod+Shift+1 move container to workspace $w1
 bindsym $mod+Shift+2 move container to workspace $w2
@@ -110,6 +141,19 @@ bindsym $mod+Shift+6 move container to workspace $w6
 bindsym $mod+Shift+7 move container to workspace $w7
 bindsym $mod+Shift+8 move container to workspace $w8
 bindsym $mod+Shift+9 move container to workspace $w9
+bindsym $mod+Shift+0 move container to workspace $w10
+bindsym $mod+Shift+F1 move container to workspace $w11
+bindsym $mod+Shift+F2 move container to workspace $w12
+bindsym $mod+Shift+F3 move container to workspace $w13
+bindsym $mod+Shift+F4 move container to workspace $w14
+bindsym $mod+Shift+F5 move container to workspace $w15
+bindsym $mod+Shift+F6 move container to workspace $w16
+bindsym $mod+Shift+F7 move container to workspace $w17
+bindsym $mod+Shift+F8 move container to workspace $w18
+bindsym $mod+Shift+F9 move container to workspace $w19
+bindsym $mod+Shift+F10 move container to workspace $w20
+bindsym $mod+Shift+F11 move container to workspace $w21
+bindsym $mod+Shift+F12 move container to workspace $w22
 
 # ------------------ I3 LIFE CYCLE -----------------
 
@@ -120,12 +164,12 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # ------------------- LAUNCHERS --------------------
 
 bindsym $mod+Return exec $term
-bindsym $mod+e exec $emacs
-bindsym $mod+F2 exec $browser
-bindsym $mod+F3 exec $file_explorer
+bindsym $mod+e exec "$emacs"
+bindsym $mod+d exec $browser
+bindsym $mod+c exec $file_explorer
 bindsym $mod+Shift+q kill
 bindsym $mod+space exec rofi -show run -config $rofi-config
-bindsym $mod+Shift+d exec morc_menu
+#bindsym $mod+Shift+d exec morc_menu
 bindsym Print exec gnome-screenshot -i
 
 # ------------------ VOLUME CONTROLS ---------------
@@ -138,6 +182,12 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle      	 #
 
 assign $TelegramCls $w2
 assign $rhythmboxCls $w2
+assign $thunderbirdCls $w7
+for_window $addtransCls floating enable
+
+# -=-=-=-=-=-= WORKSPACE NAVIGATION  =-=-=-=-=-=-
+
+workspace_auto_back_and_forth yes
 
 # -=-=-=-=-=-=-=-=-=-= MODES =-=-=-=-=-=-=-=-=-=-
 
@@ -171,11 +221,11 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+0 mode "$mode_system"
+bindsym $mod+z mode "$mode_system"
 
 mode "$mode_launcher" {
     bindsym f exec --no-startup-id $browser
-    bindsym e exec --no-startup-id $emacs
+    bindsym e exec --no-startup-id "$emacs"
     bindsym t exec --no-startup-id thunderbird
     bindsym Shitf+t exec --no-startup-id $telegram
     bindsym r exec --no-startup-id $music_player
@@ -186,6 +236,16 @@ mode "$mode_launcher" {
 }
 
 bindsym $mod+l mode "$mode_launcher"
+
+mode "$mode_money" {
+     bindsym a exec --no-startup-id addtrans
+#     bindsym e exec --no-startup-id zenity --info --text="`cat /home/kuro/.ledgerrc | cut -f 2- -d ' '`"
+     bindsym e exec grep '^--file' $HOME/.ledgerrc | cut -f 2- -d ' ' | xargs emacs
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
+
+bindsym $mod+m mode "$mode_money"
 
 # -=-=-=-=-=-=-=-=-=-= COLORS =-=-=-=-=-=-=-=-=-=-
 
@@ -209,7 +269,7 @@ new_window pixel 0
 # left screen bar
 bar {
     id bar-right
-    output $left_screen
+    output $right_screen
     status_command i3blocks -c /home/kuro/.i3/i3blocks.conf
     colors {
     	background $bg-color
@@ -222,13 +282,13 @@ bar {
 
     position bottom
 
-    tray_output $left_screen
+    tray_output $right_screen
 }
 
 # right screen bar
 bar {
-    output $right_screen
     id bar-left
+    output $left_screen
     colors {
         background $bg-color
         separator #757575
@@ -240,7 +300,7 @@ bar {
 
     position bottom
 
-    tray_output $left_screen
+    tray_output $right_screen
 }
 
 # -=-=-=-=-=-=-=-=-=-= STARTUP =-=-=-=-=-=-=-=-=-=-
@@ -248,7 +308,10 @@ bar {
 exec $telegram
 exec $music_player
 exec dropbox running && dropbox start
-exec emacs --daemon
+#exec emacs --daemon
 exec compton -f -D $compton-delay
+exec thunderbird
 
 exec_always nitrogen --restore
+exec_always numlockx on
+
