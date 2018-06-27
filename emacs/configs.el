@@ -45,7 +45,7 @@ TIME: The current time."
   (setq sentence-end-double-space nil)
   ;; Toggle wrapping text at the 80th character
   (setq fill-column 80)
-  (setq initial-scratch-message "Welcome in Emacs")
+  (setq initial-scratch-message "")
   ;; Remove toolbar
   (tool-bar-mode -1)
   ;; Remove menubar
@@ -135,25 +135,54 @@ TIME: The current time."
   (general-define-key "C-'" 'avy-goto-word-1)
   )
 
+(defun load-theme-dinamically ()
+  "Load a dark or light theme depending of the current time."
+  (message "Setting the theme")
+  ;; (pcase dinamically-set-theme
+  ;;   [nil (setq
+  ;; 	  (if (night-time? (string-to-number (format-time-string "%H")))
+  ;; 	      'rebecca
+  ;; 	    'flatui))]
+  ;;   ['
+  ;;    (load-theme #'flatui t))
+  ;; (setq theme-changed? nil)
+  ;; (let [is-night-time? (night-time? (string-to-number (format-time-string "%H")))]
+  ;;   (cond
+  ;;    [(nilp dinamically-set-theme)
+  ;;     (setq theme-changed? t)
+  ;;     (setq dinamically-set-theme
+  ;; 	    (if is-night-time? current-hour)]
+  ;;    [(night-time? current-hour)
+  ;;     ()]
+  ;;    [(not (night-time? current-hour))
+  ;;     ()]))
+  ;; (when theme-changed?
+  ;;   (load-theme dinamically-set-theme t))
+  (load-theme 'rebecca t))
+    
+
 (defun configs//theme ()
   "Setup the theme."
   (unless (package-installed-p 'flatui-theme)
     (package-refresh-contents)
     (package-install 'flatui-theme))
-  (if (night-time? (string-to-number (format-time-string "%H")))
-      (load-theme #'rebecca t)
-    (load-theme #'flatui t)
-    ))
+  (setq dinamically-set-theme nil)
+  (setq dark-theme 'rebecca)
+  (setq light-theme 'flatui)
+  (load-theme-dinamically)
+  ;(* 60 30)
+  ;(run-at-time t 1 'load-theme-dinamically)
+  )
 
 (defun configs//org-mode ()
   "\"org-mode\" configuration encapsulated."
-  (setq org-directory "~/Dropbox/org")
-  (setq org-mobile-inbox-for-pull "~/Dropbox/org/notes.org")
-  (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
+  (setq org-directory "~/org")
+  ;; (setq org-mobile-inbox-for-pull "~/Dropbox/org/notes.org")
+  ;; (setq org-mobile-directory "~/Dropbox/Aplicaciones/MobileOrg")
   
-  (setq org-mobile-autopull nil)
-  (when org-mobile-autopull
-    (org-mobile-pull))
+  ;; (setq org-mobile-autopull nil)
+  ;; (when org-mobile-autopull
+  ;;   (org-mobile-pull))
   
   
   (add-hook 'org-mode-hook (lambda ()
