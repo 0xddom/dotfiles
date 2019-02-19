@@ -77,7 +77,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-source $HOME/.cargo/env
+[ -e $HOME/.cargo/env ] && source $HOME/.cargo/env
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
