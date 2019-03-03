@@ -1,1 +1,7 @@
 .DS_Store
+emacs/auto-save-list/
+emacs/backups/
+emacs/elpa/
+emacs/network-security.data
+emacs/projectile-bookmarks.eld
+emacs/secrets.el
