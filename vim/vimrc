@@ -1,0 +1,59 @@
+" Gimme colors!
+syntax on
+" Gimme line numbers!
+set number
+" I want to use the mouse like a pleb
+set mouse=a
+" Autoformat rust before saving the file
+let g:rustfmt_autosave = 1
+
+" No stupid bell in GUI
+autocmd! GUIEnter * set vb t_vb=
+
+" Emulate C-e C-a for end and beggining of lines
+imap <C-e> <Esc>$a
+imap <C-a> <Esc>0i
+set tabstop=4 softtabstop=0 expandtab shiftwidth=2 smarttab
+
+" For makefiles use normal tabs
+autocmd FileType make setlocal tabstop=4 noexpandtab softtabstop=0 shiftwidth=8
+
+" Add bloat to my vim
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Install different assortments of bloat
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'scrooloose/nerdtree'
+" Plug 'flrnprz/taffy.vim'
+Plug 'wadackel/vim-dogrun'
+Plug 'cideM/yui'
+Plug 'yuttie/inkstained-vim'
+
+"Plug 'rust-lang/rust.vim'
+call plug#end()
+
+" A nice colorscheme
+"set background=dark
+colorscheme inkstained
+"let g:lightline = { 'colorscheme': 'dogrun' }
+
+" Make Lisp Great Again
+augroup rainbow_lisp
+  autocmd!
+  autocmd FileType lisp,clojure,scheme RainbowParentheses
+augroup END
+
+" C-n for toggling the directory browser
+map <C-n> :NERDTreeToggle<CR>
+
+" Make vim more smart when opening and closing
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
