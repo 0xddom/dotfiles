@@ -1,11 +1,12 @@
-" Gimme colors!
 syntax on
-" Gimme line numbers!
 set number
-" I want to use the mouse like a pleb
 set mouse=a
-" Autoformat rust before saving the file
+set ignorecase
+set smartcase
+set cursorline
 let g:rustfmt_autosave = 1
+let mapleader=" "
+" set clipboard+=unnamedplus
 
 " No stupid bell in GUI
 autocmd! GUIEnter * set vb t_vb=
@@ -33,10 +34,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'wadackel/vim-dogrun'
 Plug 'cideM/yui'
 Plug 'yuttie/inkstained-vim'
-
+Plug 'keith/swift.vim'
 "Plug 'rust-lang/rust.vim'
 call plug#end()
 
+autocmd BufWritePre * %s/\s\+$//e
+autocmd FileType tex,latex,markdown setlocal spell spelllang=en_us tw=80
 " A nice colorscheme
 "set background=dark
 colorscheme inkstained

@@ -60,16 +60,15 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git,
-  debian,
-  docker,
-  gem,
-  git-flow,
-  history,
-  tmux,
-  web-search,
-  wd,
-  bundler,
+  git
+  debian
+  docker
+  gem
+  git-flow
+  history
+  web-search
+  wd
+  bundler
   cabal
 )
 
@@ -79,6 +78,19 @@ source $ZSH/oh-my-zsh.sh
 
 [ -e $HOME/.cargo/env ] && source $HOME/.cargo/env
 
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="/usr/local/opt/scala@2.11/bin:$PATH"
+
+function loadnvm {
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+OSX_ANDROID_HOME=$HOME/Library/Android/sdk
+[ -s "$OSX_ANDROID_HOME" ] && export ANDROID_HOME=$OSX_ANDROID_HOME
+[ -s "$OSX_ANDROID_HOME" ] && export PATH=$PATH:$OSX_ANDROID_HOME/platform-tools:$OSX_ANDROID_HOME/tools:$OSX_ANDROID_HOME/build-tools/28.0.3/
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -105,3 +117,30 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias v=vim
+alias n=newsboat
+alias mvim="open -a MacVim"
+alias g=git
+
+export TWINE_USERNAME=foldr
+export PATH="/usr/local/opt/ncurses/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH:$HOME/scripts"
+export ANDROID_JARS_HOME="$HOME/Library/Android/sdk/platforms"
+
+export INTRANET_SESSION_COOKIE=r6chg04baofhl804kcq18p6042
+
+# opam configuration
+test -r /Users/foldr/.opam/opam-init/init.zsh && . /Users/foldr/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+PATH="/Users/foldr/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/foldr/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/foldr/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/foldr/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/foldr/perl5"; export PERL_MM_OPT;
+
+export PATH="$PATH:$HOME/.local/bin"
+
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_202)
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+
