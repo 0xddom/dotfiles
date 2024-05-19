@@ -1,8 +1,3 @@
 .DS_Store
-emacs/auto-save-list/
-emacs/backups/
-emacs/elpa/
-emacs/network-security.data
-emacs/projectile-bookmarks.eld
-emacs/secrets.el
 .config/tmux/plugins
+.config/nvim/lazy-lock.json
