@@ -5,3 +5,4 @@ emacs/elpa/
 emacs/network-security.data
 emacs/projectile-bookmarks.eld
 emacs/secrets.el
+.config/tmux/plugins
