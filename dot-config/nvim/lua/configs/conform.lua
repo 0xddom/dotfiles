@@ -1,7 +1,10 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
-    cpp = { "clang-format" }
+    cpp = { "clang-format" },
+    python = { "isort", "black" },
+    latex = { "latexindent" },
+    bibtex = { "bibtex-tidy" }
   },
 
   format_on_save = {

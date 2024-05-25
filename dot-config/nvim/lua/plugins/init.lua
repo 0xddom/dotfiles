@@ -9,6 +9,9 @@ return {
         "nix",
         "rust",
         "typescript",
+        "python",
+        "latex",
+        "bibtex"
       },
     },
   },
@@ -30,7 +33,14 @@ return {
         "typescript-language-server",
         "eslint-lsp",
         "texlab",
-        "lua-language-server"
+        "lua-language-server",
+        "pyright",
+        "black",
+        "isort",
+        "latexindent",
+        "gh",
+        "bibtex-tidy",
+        "tree-sitter-cli"
       },
     },
   },
