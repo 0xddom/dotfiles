@@ -84,6 +84,7 @@ return {
         "typescript-language-server",
         "eslint-lsp",
         "texlab",
+        "lua-language-server"
       },
     },
   },
