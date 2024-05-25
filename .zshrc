@@ -13,6 +13,13 @@ fi
 if [ $(uname) = 'Linux' ]; then
   # Exports
   export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+  # Expand $PATH to include the directory where snappy applications go.
+  snap_bin_path="/snap/bin"
+  if [ -n "${PATH##*${snap_bin_path}}" ] && [ -n "${PATH##*${snap_bin_path}:*}" ]; then
+    export PATH="$PATH:${snap_bin_path}"
+  fi
+
 fi
 export CLICOLOR=1
 
@@ -70,5 +77,22 @@ zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
 alias ls='ls --color=auto'
 alias vim=nvim
 
-eval "$(fzf --zsh)"
+if [ fzf --zsh 2> /dev/null ]; then
+	eval "$(fzf --zsh)"
+else
+  if [ ! -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh" ] ; then
+    mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/"
+    curl 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh' > "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh"
+  fi
+  if [ ! -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/key-bindings.zsh" ] ; then
+    mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/"
+    curl 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh' > "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/key-bindings.zsh"
+  fi
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh"
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/key-bindings.zsh"
+fi
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
