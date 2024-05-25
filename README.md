@@ -16,4 +16,10 @@ cd .dotfiles
 stow .
 ```
 
+### Tmux
 
+Install the Tmux Package Manager
+
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tmp
+```
