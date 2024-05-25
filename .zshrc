@@ -22,6 +22,12 @@ if [ $(uname) = 'Linux' ]; then
 
 fi
 export CLICOLOR=1
+if [ -x $(which nvim) ]; then
+  export EDITOR=nvim
+else
+  # Sane default to vim
+  export EDITOR=vim
+fi
 
 # Set the directory we want to store zinit and plugings
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
