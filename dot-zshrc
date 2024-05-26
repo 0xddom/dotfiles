@@ -83,7 +83,7 @@ zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
 alias ls='ls --color=auto'
 alias vim=nvim
 
-if [ fzf --zsh 2> /dev/null ]; then
+if fzf --zsh 2> /dev/null > /dev/null ; then
 	eval "$(fzf --zsh)"
 else
   if [ ! -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh" ] ; then
