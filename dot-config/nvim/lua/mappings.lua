@@ -38,7 +38,7 @@ map("i", "jk", "<ESC>")
 
 map("n", "<leader>cg", "<cmd> CMakeGenerate<CR>", { desc = "Generate CMake project" })
 map("n", "<leader>cb", "<cmd> CMakeBuild<CR>", { desc = "Build CMake project" })
-map("n", "<leader>cq", "<cmd> CMakeClose<CR>", { desc = "Close CMake" })
+map("n", "<leader>cq", "<cmd> CMakeCloseExecutor<CR>", { desc = "Close CMake" })
 map("n", "<leader>cc", "<cmd> CMakeClean<CR>", { desc = "Clean CMake outputs" })
 
 
