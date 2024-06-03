@@ -6,8 +6,8 @@ local M = {}
 
 M.ui = {
   theme_toggle = { "catppuccin", "ayu_light" },
-  theme = "ayu_light", -- default theme
-  transparency = true,
+  theme = "catppuccin", -- default theme
+  transparency = false,
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },

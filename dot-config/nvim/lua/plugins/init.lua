@@ -11,7 +11,8 @@ return {
         "typescript",
         "python",
         "latex",
-        "bibtex"
+        "bibtex",
+        "solidity"
       },
     },
   },
@@ -40,7 +41,8 @@ return {
         "latexindent",
         "gh",
         "bibtex-tidy",
-        "tree-sitter-cli"
+        "tree-sitter-cli",
+        "direnv"
       },
     },
   },
@@ -48,5 +50,9 @@ return {
     "christoomey/vim-tmux-navigator",
     lazy = false
   },
-  "nvim-neotest/nvim-nio"
+  "nvim-neotest/nvim-nio",
+  {
+    "direnv/direnv.vim",
+    lazy = false
+  }
 }
