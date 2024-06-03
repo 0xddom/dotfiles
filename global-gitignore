@@ -1,3 +1,4 @@
 .envrc
 .DS_Store
 .direnv
+compile_commands.json

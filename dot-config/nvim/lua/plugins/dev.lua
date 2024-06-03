@@ -63,4 +63,11 @@ return {
       crates.show()
     end,
   },
+  {
+    'Civitasv/cmake-tools.nvim',
+    lazy = false,
+    config = function()
+      require "configs.cmake"
+    end
+  }
 }
