@@ -26,6 +26,13 @@ if which direnv > /dev/null ; then
   eval "$(direnv hook zsh)"
 fi
 
+
+
+# if which llvmenv > /dev/null ; then
+  # export LLVMENV_RUST_BINDING=1
+  # source <(llvmenv zsh)
+# fi
+
 export CLICOLOR=1
 if [ -x $(which nvim) ]; then
   export EDITOR=nvim
@@ -58,6 +65,10 @@ zinit light zsh-users/zsh-autosuggestions
 # Load completions
 autoload -U compinit && compinit
 zinit cdreplay -q
+
+if which forge > /dev/null; then
+  source <(forge completions zsh)
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
