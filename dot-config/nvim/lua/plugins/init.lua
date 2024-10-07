@@ -13,6 +13,7 @@ return {
         "latex",
         "bibtex",
         "ruby",
+        "solidity"
       },
     },
   },
@@ -43,6 +44,7 @@ return {
         "bibtex-tidy",
         "tree-sitter-cli",
         "rubocop",
+        "direnv"
       },
     },
   },
@@ -55,4 +57,9 @@ return {
     "tpope/vim-surround",
     lazy = false,
   },
+  "nvim-neotest/nvim-nio",
+  {
+    "direnv/direnv.vim",
+    lazy = false
+  }
 }

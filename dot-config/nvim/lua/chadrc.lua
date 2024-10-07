@@ -5,7 +5,7 @@
 local M = {}
 
 M.ui = {
-  theme_toggle = { "ayu_light", "ayu_light" },
+  theme_toggle = { "catppuccin", "ayu_light" },
   theme = "catppuccin", -- default theme
   transparency = false,
   hl_override = {
