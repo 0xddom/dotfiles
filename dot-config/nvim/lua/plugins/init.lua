@@ -11,7 +11,8 @@ return {
         "typescript",
         "python",
         "latex",
-        "bibtex"
+        "bibtex",
+        "ruby",
       },
     },
   },
@@ -40,13 +41,18 @@ return {
         "latexindent",
         "gh",
         "bibtex-tidy",
-        "tree-sitter-cli"
+        "tree-sitter-cli",
+        "rubocop",
       },
     },
   },
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false
+    lazy = false,
   },
-  "nvim-neotest/nvim-nio"
+  "nvim-neotest/nvim-nio",
+  {
+    "tpope/vim-surround",
+    lazy = false,
+  },
 }
