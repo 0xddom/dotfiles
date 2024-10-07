@@ -54,5 +54,12 @@ return {
   {
     "direnv/direnv.vim",
     lazy = false
+  },
+  {
+    "stevearc/overseer.nvim",
+    opts = {},
+    config = function()
+      require('overseer').setup()
+    end
   }
 }
