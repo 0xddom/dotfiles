@@ -12,6 +12,7 @@ return {
         "python",
         "latex",
         "bibtex",
+        "ruby",
         "solidity"
       },
     },
@@ -42,13 +43,19 @@ return {
         "gh",
         "bibtex-tidy",
         "tree-sitter-cli",
+        "rubocop",
         "direnv"
       },
     },
   },
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false
+    lazy = false,
+  },
+  "nvim-neotest/nvim-nio",
+  {
+    "tpope/vim-surround",
+    lazy = false,
   },
   "nvim-neotest/nvim-nio",
   {
