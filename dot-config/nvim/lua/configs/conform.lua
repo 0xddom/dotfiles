@@ -6,6 +6,8 @@ local options = {
     latex = { "latexindent" },
     bibtex = { "bibtex-tidy" },
     ruby = { "rubocop" },
+    cmake = { "cmake_format" },
+    tablegen = { "clang-format" },
   },
 
   format_on_save = {
@@ -15,4 +17,4 @@ local options = {
   },
 }
 
-require("conform").setup(options)
+return options

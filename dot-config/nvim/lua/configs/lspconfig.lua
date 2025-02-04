@@ -1,3 +1,5 @@
+require("nvchad.configs.lspconfig").defaults()
+
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
@@ -16,7 +18,7 @@ local servers = {
     on_attach = function(client, bufnr)
       -- client.server_capabilities.signatureHelpProvider = false
       default_on_attach(client, bufnr)
-    end
+    end,
   },
   rust_analyzer = {
     filetypes = { "rust" },
@@ -24,23 +26,25 @@ local servers = {
     settings = {
       ["rust-analyzer"] = {
         cargo = {
-          allFeatures = true
-        }
-      }
-    }
+          allFeatures = true,
+        },
+      },
+    },
   },
-  tsserver = {
+  ts_ls = {
     init_options = {
       preferences = {
         disableSuggestions = true,
         importModuleSpecifierEnding = "index",
       },
-    }
+    },
   },
   texlab = {},
   pyright = {
-    filetypes = { "python" }
-  }
+    filetypes = { "python" },
+  },
+  cmake = {},
+  tblgen_lsp_server = {},
 }
 
 for name, opts in pairs(servers) do

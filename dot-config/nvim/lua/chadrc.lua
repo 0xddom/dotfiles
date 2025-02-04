@@ -4,14 +4,29 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = {
-  theme_toggle = { "catppuccin", "ayu_light" },
+M.base46 = {
   theme = "catppuccin", -- default theme
-  transparency = false,
-  hl_override = {
-    Comment = { italic = true },
-    ["@comment"] = { italic = true },
-  },
+  transparency = true,
+  -- hl_override = {
+  --   Comment = { italic = true, fg = "#a6adc8" },
+  --   ["@comment"] = { italic = true, fg = "#a6adc8" },
+  --   NonText = {
+  --     fg = "#a6adc8",
+  --     bg = "#1e1e2e",
+  --   },
+  --   LineNr = {
+  --     fg = "#a6adc8",
+  --     bg = "#1e1e2e",
+  --   },
+  --   TbTabOff = {
+  --     fg = "#a6adc8",
+  --     bg = "#1e1e2e",
+  --   }
+  -- },
+}
+
+M.mason = {
+  pkgs = require "configs.mason"
 }
 
 return M
