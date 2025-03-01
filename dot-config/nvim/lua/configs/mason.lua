@@ -18,17 +18,8 @@ local ensure_installed = {
   -- "direnv",
   "cmakelang",
   "cmake-language-server",
+  "cpptools"
   -- "tblgen-lsp-server",
 }
 
 return ensure_installed
-
--- require("mason").setup()
---
--- local mason_registry = require "mason-registry"
---
--- for _, pkg in ipairs(ensure_installed) do
---   if not mason_registry.is_installed(pkg) then
---     mason_registry.get_package(pkg):install()
---   end
--- end

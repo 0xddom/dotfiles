@@ -23,13 +23,20 @@ require("cmake-tools").setup {
     short = { show = true },                 -- whether to show short message
     long = { show = true, max_length = 40 }, -- whether to show long message
   },
-  cmake_dap_configuration = {                -- debug settings for cmake
-    name = "cpp",
+  cmake_dap_configuration = {                -- debug settings for cmake TODO: Move this to a DAP centered config file
+    name = "Launch CMake run target",
     type = "codelldb",
     request = "launch",
-    stopOnEntry = false,
-    runInTerminal = true,
-    console = "integratedTerminal",
+    stopAtEntry = true,
+    -- runInTerminal = true,
+    -- console = "integratedTerminal",
+    -- setupCommands = {
+    --   {
+    --     text = "-enable-pretty-printing",
+    --     description = "Enable pretty printing if enabled",
+    --     ignoreFailures = false
+    --   }
+    -- }
   },
   cmake_executor = {                    -- executor to use
     name = "quickfix",                  -- name of the executor
