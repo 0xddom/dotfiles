@@ -53,5 +53,9 @@ return {
     config = function()
       require "configs.cmake"
     end
+  },
+  {
+    "hinell/lsp-timeout.nvim",
+    dependencies = { "neovim/nvim-lspconfig" }
   }
 }
