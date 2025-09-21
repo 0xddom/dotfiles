@@ -1,3 +1,4 @@
+# vi: ft=zsh
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -5,134 +6,18 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-  # If you're using macOS, you'll want this enabled
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-  export PATH="/opt/homebrew/opt/bison/bin:$PATH"
-fi
-
 if [ -d "$HOME/.local/bin" ]; then
   export PATH="$PATH:$HOME/.local/bin"
 fi
 
-if [ $(uname) = 'Linux' ]; then
-  # Exports
-  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
-  # Expand $PATH to include the directory where snappy applications go.
-  snap_bin_path="/snap/bin"
-  if [ -n "${PATH##*${snap_bin_path}}" ] && [ -n "${PATH##*${snap_bin_path}:*}" ]; then
-    export PATH="$PATH:${snap_bin_path}"
-  fi
-
+if [ -d $HOME/.zshrc.d ]; then 
+  for rc in in $HOME/.zshrc.d/*; do 
+    if [ -f $rc ]; then 
+      . $rc 
+    fi 
+  done 
 fi
-
-if which direnv > /dev/null ; then 
-  eval "$(direnv hook zsh)"
-fi
-
-
-
-# if which llvmenv > /dev/null ; then
-  # export LLVMENV_RUST_BINDING=1
-  # source <(llvmenv zsh)
-# fi
-
-export CLICOLOR=1
-if [ -x $(which nvim) ]; then
-  export EDITOR=nvim
-else
-  # Sane default to vim
-  export EDITOR=vim
-fi
-
-# Set the directory we want to store zinit and plugings
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
-# Download zinit, if it's not there yet
-if [ ! -d "$ZINIT_HOME" ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
-
-# Load zinit
-source "${ZINIT_HOME}/zinit.zsh"
-
-# Add in Powerlevel10k
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# Add in zsk plugings
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-#zinit light Aloxaf/fzf-tab
-
-# Load completions
-autoload -U compinit && compinit
-zinit cdreplay -q
-
-if which forge > /dev/null; then
-  source <(forge completions zsh)
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Keybindings
-bindkey -e
-
-# History
-HISTSIZE=5000
-HISTFILE=~/.zsk_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
-
-# Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
-# zstyle ':completion:*' menu no
-#zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+unset rc
 
 # Aliases
 alias ls='ls --color=auto'
-alias vim=nvim
-
-if fzf --zsh 2> /dev/null > /dev/null ; then
-	eval "$(fzf --zsh)"
-else
-  if [ ! -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh" ] ; then
-    mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/"
-    curl 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh' > "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh"
-  fi
-  if [ ! -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/key-bindings.zsh" ] ; then
-    mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/"
-    curl 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh' > "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/key-bindings.zsh"
-  fi
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion.zsh"
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/key-bindings.zsh"
-fi
-
-if [ -f /usr/share/nvm/init-nvm.sh ]; then
-  source /usr/share/nvm/init-nvm.sh
-else
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-if which gem > /dev/null; then
-  export GEM_HOME="$(gem env user_gemhome)"
-  export PATH="$PATH:$GEM_HOME/bin"
-fi
-
