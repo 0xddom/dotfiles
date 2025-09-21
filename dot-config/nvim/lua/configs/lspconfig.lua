@@ -3,8 +3,6 @@ require("nvchad.configs.lspconfig").defaults()
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
--- local lspconfig = require "lspconfig"
--- local util = require "lspconfig/util"
 
 local function default_on_attach(client, bufnr)
   if client.server_capabilities.inlayHintProvider then
@@ -22,8 +20,7 @@ local servers = {
   },
   rust_analyzer = {
     filetypes = { "rust" },
-    -- root_dir = util.root_pattern "Cargo.toml",
-    root_dir = vim.lsp.util.root_pattern "Cargo.toml",
+    root_markers = { "Cargo.lock", "Cargo.toml" },
     settings = {
       ["rust-analyzer"] = {
         cargo = {
@@ -59,6 +56,5 @@ for name, opts in pairs(servers) do
     opts.capabilities = capabilities
   end
 
-  -- lspconfig[name].setup(opts)
-  vim.lsp.config[name].setup(opts)
+  vim.lsp.config[name] = opts
 end
