@@ -25,3 +25,4 @@ _darcs
 \.stowrc
 
 global-gitignore
+apply.sh
